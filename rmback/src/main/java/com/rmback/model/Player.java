@@ -6,6 +6,7 @@ import java.util.Date;
 public class Player {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="player_id")
     private int playerId;
     private String firstName;

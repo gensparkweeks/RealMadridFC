@@ -41,6 +41,7 @@ public class PositionServiceImpl implements PositionService{
 
     @Override
     public String deletePosition(int id) {
+        positionDao.deleteById(id);
         return "The position id: "+ id + " was deleted";
     }
 }
