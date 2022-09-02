@@ -9,39 +9,39 @@ class Header extends React.Component{
         return(
             <>
                 <header id="header">
-        <div className="center">
-            {/* <!-- LOGO --> */}
-            <div id="logo">
-                <NavLink to="/">
-                 <img src={logo} className="app-logo" alt="Real Madrid Logo" />
-                </NavLink>
-                <span id="brand1">
-                        <strong>Real</strong>Madrid FC
-                    </span>
-            </div>
+                    <div className="center">
+                        {/* <!-- LOGO --> */}
+                        <div id="logo">
+                            <NavLink to="/">
+                            <img src={logo} className="app-logo" alt="Real Madrid Logo" />
+                            </NavLink>
+                            <span id="brand1">
+                                    <strong>Real</strong>Madrid FC
+                                </span>
+                        </div>
 
-            {/* <!-- MENU --> */}
-            <nav id="menu">
-                <ul>
-                    <li>
-                        <NavLink to="/" activeClassName="active">Home</NavLink>
-                    </li>
-                    <li>
-                        <NavLink to="/error" activeClassName="active">Players</NavLink>
-                    </li>
-                    <li>
-                        <NavLink to="/error" activeClassName="active">Countries</NavLink>
-                    </li>
-                    <li>
-                        <NavLink to="/positions" activeClassName="active">Positions</NavLink>
-                    </li>
-                </ul>
-            </nav>
+                        {/* <!-- MENU --> */}
+                        <nav id="menu">
+                            <ul>
+                                <li>
+                                    <NavLink to="/" className={({ isActive }) => (isActive ? 'active' : 'inactive')}>Home</NavLink>
+                                </li>
+                                <li>
+                                    <NavLink to="/error">Players</NavLink>
+                                </li>
+                                <li>
+                                    <NavLink to="/error">Countries</NavLink>
+                                </li>
+                                <li>
+                                    <NavLink to="/positions" className={({ isActive }) => (isActive ? 'active' : 'inactive')}>Positions</NavLink>
+                                </li>
+                            </ul>
+                        </nav>
 
-            {/* <!--Clean float--> */}
-            <div className="clearfix"></div>
-        </div>
-    </header>
+                        {/* <!--Clean float--> */}
+                        <div className="clearfix"></div>
+                    </div>
+                </header>
             </>
         );
     }

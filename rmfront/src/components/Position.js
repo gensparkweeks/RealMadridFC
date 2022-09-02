@@ -1,6 +1,7 @@
 import React from "react";
-import formation from '../assets/images/formation.png';
 import {NavLink} from 'react-router-dom';
+import position from '../assets/images/formation.png';
+import ShowPositions from "./ShowPositions";
 
 class Position extends React.Component{
 
@@ -13,18 +14,11 @@ class Position extends React.Component{
     
                 <article className="article-item article-detail">
                     <div className="image-wrap">
-                        <img src={formation}  alt="Positions" />
+                        <img src={position}  alt="Positions" />
                     </div>
-    
-                    <h1 className="subheader">Positions</h1>
-    
-                    <h1 className="subheader">Positions</h1>
-                    <h1 className="subheader">Positions</h1>
-                    <h1 className="subheader">Positions</h1>
-    
-                    <a href="positionform.html">Update</a>
-    
-                    <div className="clearfix"></div>
+
+                    <ShowPositions />
+                    
                 </article>
     
             </section>

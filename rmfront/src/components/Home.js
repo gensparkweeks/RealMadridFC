@@ -1,4 +1,5 @@
 import React, {Component} from "react";
+import bernabeu from '../assets/images/bernabeu.jpg';
 
 class Home extends Component{
 
@@ -8,7 +9,7 @@ class Home extends Component{
             <div className="center">
                 <article className="article-item article-detail">
                     <div className="image-full">
-                        <img src="https://www.stadia-magazine.com/wp-content/uploads/2019/02/700.jpg" alt="Santiago Bernabeu" />
+                        <img src={bernabeu} alt="Santiago Bernabeu" />
                     </div>
 
                     <h1 className="subheader">Santiago Bernabeu Stadium</h1>

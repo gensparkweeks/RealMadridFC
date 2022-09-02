@@ -5,10 +5,9 @@ const Error = () => {
 
   return (
     <div className="center">
-      {/* <h1>Page not found</h1>     */}
-      {/* <p>The Real Madrid FC App Team has not been found the page</p>   */}
+      <p className='notfound'>The page couldn't be found</p>  
       <img className="error404" src={error404} alt="error404" /> 
-      <div classname="clearfix"></div>                    
+      <div className="clearfix"></div>                    
     </div>
                 
   )
