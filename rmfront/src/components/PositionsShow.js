@@ -3,7 +3,7 @@ import axios from 'axios';
 import Global from './Global';
 import {Link} from 'react-router-dom';
 
-class ShowPositions extends Component{
+class PositionsShow extends Component{
 
     url = Global.url;
 
@@ -35,10 +35,10 @@ class ShowPositions extends Component{
                 return(
                     <>
                         <h1 key={pos} className="subheader">{pos.positionName}</h1>
-                        <Link to="/positionupdate" >Update</Link>
+                        <Link to={"/positionsupdate"+"/"+pos.positionId+"/"+pos.positionName} >Update</Link>
                         <hr />
                     </>
-                );
+                )
             })
 
             return(
@@ -46,21 +46,21 @@ class ShowPositions extends Component{
                     {listPositions}
                 </>
                 
-            );
+            )
 
         }else if (this.state.positions.length === 0 && this.state.status){
             return(
                 <h1 className="subheader">There is no positions to show</h1>
-            );
+            )
             
         }else{
             return(
                 <h1 className="subheader">Loading positions...</h1>
-            );
+            )
             
         }
 
         
     }
 }
-export default ShowPositions;
+export default PositionsShow;

@@ -1,9 +1,9 @@
 import React from "react";
 import {NavLink} from 'react-router-dom';
-import position from '../assets/images/formation.png';
-import ShowPositions from "./ShowPositions";
+import pospicture from '../assets/images/formation.png';
+import PositionsShow from "./PositionsShow";
 
-class Position extends React.Component{
+class Positions extends React.Component{
 
     render(){
 
@@ -14,10 +14,10 @@ class Position extends React.Component{
     
                 <article className="article-item article-detail">
                     <div className="image-wrap">
-                        <img src={position}  alt="Positions" />
+                        <img src={pospicture}  alt="Positions" />
                     </div>
 
-                    <ShowPositions />
+                    <PositionsShow />
                     
                 </article>
     
@@ -43,4 +43,4 @@ class Position extends React.Component{
         );
     }
 }
-export default Position;
+export default Positions;

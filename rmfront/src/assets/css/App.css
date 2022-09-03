@@ -225,6 +225,30 @@ body {
     background: rgb(23, 150, 19);
 }
 
+.btn-update {
+    background: white;
+    float: left;
+    margin-right: 10px;
+    border: 1px solid rgb(195, 167, 7);
+    color: rgb(195, 167, 7);
+}
+
+.btn-update:hover {
+    color: white;
+    background: rgb(195, 167, 7);
+}
+
+.btn-delete {
+    background: white;
+    color: rgb(255, 51, 0);
+    border: 1px solid rgb(255, 51, 0);
+}
+
+.btn-delete:hover {
+    color: white;
+    background: rgb(255, 51, 0);
+}
+
 .btn-success:hover {
     background: black;
 }
