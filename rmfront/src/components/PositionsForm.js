@@ -3,6 +3,7 @@ import {NavLink} from 'react-router-dom';
 import {Navigate} from 'react-router-dom';
 import Global from './Global';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 
 class PositionsForm extends Component{
 
@@ -36,7 +37,11 @@ class PositionsForm extends Component{
                         status: true
                     })
                 }
-            })   
+            }) 
+        Swal.fire({
+            icon: 'success',
+            title: 'The position '+this.state.position.positionName+ ' was created!'
+        })   
     }
 
     render(){

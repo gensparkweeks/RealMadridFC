@@ -335,6 +335,18 @@ textarea {
     text-align: center;
 }
 
+.image-small {
+    width: 200px;
+    height: 130px;
+    overflow: hidden;
+    margin: 0 auto;
+}
+
+.image-small img {
+    height: 100%;
+    text-align: center;
+}
+
 
 /* --- */
 

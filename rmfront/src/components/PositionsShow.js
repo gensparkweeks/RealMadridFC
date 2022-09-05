@@ -35,7 +35,7 @@ class PositionsShow extends Component{
                 return(
                     <>
                         <h1 key={pos} className="subheader">{pos.positionName}</h1>
-                        <Link to={"/positionsupdate"+"/"+pos.positionId+"/"+pos.positionName} >Update</Link>
+                        <Link to={"/positionsupdate/"+pos.positionId+"/"+pos.positionName} >Update</Link>
                         <hr />
                     </>
                 )

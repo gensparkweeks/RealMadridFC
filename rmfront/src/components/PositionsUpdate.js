@@ -1,104 +1,91 @@
-import React, {Component} from 'react';
-import {NavLink, Navigate, useParams} from 'react-router-dom';
-import Global from './Global';
+import React, {useRef, useState} from 'react'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios';
+import Global from './Global';
+import Swal from 'sweetalert2';
 
 
-class PositionsUpdate extends Component {
+export default function PositionsUpdate() {
 
-    constructor(props){
-        super(props);
+    const {id, name} = useParams();
+    const nameRef = useRef();
+    const navigate = useNavigate();
 
-        this.state={
-            position:{
-                positionId: props.id,
-                positionName: props.name
-            },
-            status: false,
-            value: this.props.name
-        }
-    }
+    const [posName, setPosName] = useState(name);
 
-    url = Global.url;
-    nameRef = React.createRef();
-    
-    // changeState = (event)=>{
-    //     this.setState({
-    //         position:{
-    //             positionId: this.props.positionId,
-    //             positionName: this.nameRef
-    //         },
-    //         status: false,
-    //         value: this.nameRef
-    //     })
-    // }
+    const url = Global.url;
 
-    submitForm = (e)=>{
-        e.preventDefault();
-        // Update state
-        // this.changeState();
+    const handleUpdate = () => {
 
-        console.log(this.state.position);
-
-        //POst
-        // axios.post(this.url + "positions/", this.state.position)
-        //     .then(res=>{
-        //         if(res.data){
-        //             this.setState({
-        //                 position:res.data,
-        //                 status: true
-        //             })
-        //         }
-        //     })   
-    }
-
-    render(){
-
-        if (this.state.status){
-            return <Navigate to="/positions"></Navigate>
-        }
-
-        return(
-            <div className="center">
-                <section id="content">
-
-                    <h1 className="subheader">Position: {this.state.position.name}</h1>
-
-                    <form onSubmit={this.submitForm} className="mid-form">
-                        <div className="form-group">
-                            <label htmlFor="firstname">Position name</label>
-                            <input type="text" 
-                                    name="firstname" 
-                                    ref={this.nameRef}
-                                    onChange={this.changeState}
-                                    value= {this.state.value}
-                            />
-                        </div>
-
-                        <div className="clearfix"></div>
-
-
-                    <div className='btns'>
-                        <input type="submit" value="Update" className="btn btn-update" />
-                        {/* <input type="submit" value="Delete" className="btn btn-delete" /> */}
-                    </div>
+        // Put
+        axios.put(url + "positions", {positionId:id, positionName: posName})
+            .then(res => {
+                if (res.data){
                     
+                }
+            });
 
-                </form>
+        Swal.fire({
+            icon: 'success',
+            title: 'The position was updated!'
+        })
+        navigate("/positions");
+    };
 
-            </section>
+    const handleDelete = () => {
+        axios.delete(url + "positions/" + id)
+            .then(res => {
+                if (res.data){
+                    
+                }
+            });
+        Swal.fire({
+            icon: 'success',
+            title: 'The position '+name+ ' was deleted!'
+        })  
+        navigate("/positions");
+    }    
+             
+  return (
 
-            <aside id="sidebar">
-                <div id="nav-blog" className="sidebar-item">
-                    <h3>You can do this</h3>
-                    <NavLink to="/positions" className="btn btn-success">Go back</NavLink>
+     <div className="center">
+        
+        <section id="content">
+
+            <h1 className="subheader">Position: {name}</h1>
+
+            <form className="mid-form">
+                <div className="form-group">
+                    <label htmlFor="positionname">Position name</label>
+                    <input type="text" 
+                            name="positionname" 
+                            ref={nameRef}
+                            onChange={(e) => setPosName(e.target.value)}
+                            value={posName}
+                    />
                 </div>
-            </aside>
 
-            <div className="clearfix"></div>
-        </div>
+                <div className="clearfix"></div>
 
-        );
-    }
+
+                <div className='btns'>
+                    <input onClick={handleUpdate} type="submit" value="Update" className="btn btn-update" />
+                    <input onClick={handleDelete} type="submit" value="Delete" className="btn btn-delete" />
+                </div>
+            
+
+            </form>
+
+        </section>
+
+        <aside id="sidebar">
+            <div id="nav-blog" className="sidebar-item">
+                <h3>You can</h3>
+                <Link to="/positions" className="btn btn-success">Go back</Link>
+            </div>
+        </aside>
+
+        <div className="clearfix"></div>
+    </div>
+  )
 }
-export default PositionsUpdate;

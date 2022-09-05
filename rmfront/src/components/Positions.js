@@ -11,7 +11,7 @@ class Positions extends React.Component{
            
             <div className="center">
             <section id="content">
-    
+                <h2 className="subheader">Positions within the Soccer Game</h2>
                 <article className="article-item article-detail">
                     <div className="image-wrap">
                         <img src={pospicture}  alt="Positions" />
@@ -25,7 +25,7 @@ class Positions extends React.Component{
     
             <aside id="sidebar">
                 <div id="nav-blog" className="sidebar-item">
-                    <h3>You can do this</h3>
+                    <h3>You can</h3>
                     <NavLink to="/positionsform" className="btn btn-success">Add a position</NavLink>
                 </div>
     
