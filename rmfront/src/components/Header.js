@@ -27,7 +27,7 @@ class Header extends React.Component{
                                     <NavLink to="/" className={({ isActive }) => (isActive ? 'active' : 'inactive')}>Home</NavLink>
                                 </li>
                                 <li>
-                                    <NavLink to="/error">Players</NavLink>
+                                    <NavLink to="/players" className={({ isActive }) => (isActive ? 'active' : 'inactive')}>Players</NavLink>
                                 </li>
                                 <li>
                                     <NavLink to="/countries" className={({ isActive }) => (isActive ? 'active' : 'inactive')}>Countries</NavLink>

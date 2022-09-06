@@ -36,11 +36,11 @@ public class CountryController {
     }
 
     @PostMapping
-    public Country createCountry(@RequestBody Country country, @RequestParam("file") MultipartFile image){
+    public Country createCountry(@RequestBody Country country){
 
-        System.out.println(image.getName());
-        System.out.println(image.getOriginalFilename());
-        System.out.println(image.getContentType());
+//        System.out.println(image.getName());
+//        System.out.println(image.getOriginalFilename());
+//        System.out.println(image.getContentType());
 
 //        if (!image.isEmpty()){
 //            Path imagesDirectory = Paths.get("src/main/resources/static/images");
@@ -59,9 +59,8 @@ public class CountryController {
 //        }else{
 //            country.setFlag("empty.png");
 //        }
-//
-//        return countryService.createCountry(country);
-        return null;
+
+        return countryService.createCountry(country);
     }
 
     @PutMapping

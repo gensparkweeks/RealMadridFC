@@ -12,6 +12,9 @@ import PositionsUpdate from './components/PositionsUpdate';
 import Country from './components/Country';
 import CountryForm from './components/CountryForm';
 import CountryUpdate from './components/CountryUpdate';
+import Player from './components/Player';
+import PlayerForm from './components/PlayerForm';
+import PlayerUpdate from './components/PlayerUpdate';
 
 function App() {
   return (
@@ -31,6 +34,10 @@ function App() {
             <Route exact path="/countries" element={<Country />} />
             <Route exact path="/contriesform" element={<CountryForm  />} />
             <Route exact path="/contriesupdate/:id/:name/:flag" element={<CountryUpdate  />} />
+
+            <Route exact path="/players" element={<Player />} />
+            <Route exact path="/playersform" element={<PlayerForm />} />
+            <Route exact path="/playersupdate/:id" element={<PlayerUpdate />} />
 
             <Route exact path="*" element={<Error />} />
 

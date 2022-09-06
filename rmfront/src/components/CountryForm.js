@@ -14,7 +14,7 @@ export default function ContryForm() {
     
     const submitForm = () => {
         //Post
-        axios.put(url + "countries", {countryName: couName, countryFlag:'not yet'})
+        axios.put(url + "countries", {countryName: couName, countryFlag:'default.png'})
             .then(res => {
                 if (res.data){
                     
@@ -27,7 +27,6 @@ export default function ContryForm() {
         }) 
         navigate("/countries");
     };
-
 
   return (
     <div className="center">
@@ -50,6 +49,7 @@ export default function ContryForm() {
                             <label htmlFor="flag">Upload flag</label>
                             <input type="file" 
                                     name="flag" 
+                                    
                             />
                         </div>
 
