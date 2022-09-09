@@ -4,7 +4,6 @@ import java.util.Date;
 
 @Entity
 public class Player {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="player_id")
@@ -14,11 +13,9 @@ public class Player {
     private Date dob;
     private String picture;
     private String bio;
-
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="country_id", referencedColumnName = "country_id")
     private Country country;
-
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="position_id", referencedColumnName = "position_id")
     private Position position;

@@ -58,7 +58,7 @@ class CountryShow extends Component{
 
         }else if (this.state.countries.length === 0 && this.state.status){
             return(
-                <h1 className="subheader">There is no countries to show</h1>
+                <h1 className="subheader">Nothing to show...</h1>
             )
             
         }else{

@@ -10,14 +10,35 @@ export default function CountryUpdate() {
     const url = Global.url;
     const navigate = useNavigate();
 
-    const {id, name} = useParams();
+    const {id, name, flag} = useParams();
 
     const nameRef = useRef();
     const [couName, setCouName] = useState(name);
+    const [seletedFile, setSelectedFile] = useState(null);
     
-    const handleUpdate = () => {
-        // Put
-        axios.put(url + "countries", {countryId:id, countryName: couName, flag: "updated"})
+    const handleUpdate = (e) => {
+        e.preventDefault();
+
+        var flagUpdated = flag;
+
+        if (seletedFile !== null){
+            flagUpdated = seletedFile.name;
+
+            const fd = new FormData();
+            fd.append('file0', seletedFile);
+
+            //Put
+            axios.put("http://localhost:8080/api/upload", fd)
+            .then(res =>{
+                if(res.ok) {
+                    console.log(res.data);
+                }
+            })
+            
+        }
+
+        //Put
+        axios.put(url + "countries", {countryId:id, countryName: couName, flag: flagUpdated})
             .then(res => {
                 if (res.data){ 
                 }
@@ -25,7 +46,7 @@ export default function CountryUpdate() {
 
         Swal.fire({
             icon: 'success',
-            title: 'The country '+ couName + '  was updated!'
+            title: 'The country '+ name + '  was updated!'
         })
         navigate("/countries");
     };
@@ -70,7 +91,7 @@ export default function CountryUpdate() {
                 <div className="form-group">
                     <label htmlFor="flag">Upload flag</label>
                     <input type="file" 
-                            name="flag" 
+                            onChange={(e)=> setSelectedFile(e.target.files[0])} 
                     />
                 </div>
 

@@ -7,6 +7,7 @@ import Swal from 'sweetalert2';
 
 export default function PositionsUpdate() {
 
+
     const {id, name} = useParams();
     const nameRef = useRef();
     const navigate = useNavigate();
