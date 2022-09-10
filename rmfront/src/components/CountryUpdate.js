@@ -3,11 +3,13 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios';
 import Global from './Global';
 import Swal from 'sweetalert2';
-import fra from '../assets/images/fra.svg';
+import empty from '../assets/images/empty.png';
 
 export default function CountryUpdate() {
 
     const url = Global.url;
+    const imgPath = Global.imgPath;
+
     const navigate = useNavigate();
 
     const {id, name, flag} = useParams();
@@ -74,7 +76,7 @@ export default function CountryUpdate() {
             <h1 className="subheader">Country: {name}</h1>
 
             <div className="image-small">
-                <img src={fra} alt="Flag" />
+                {flag !== 'null' ? <img src={imgPath + flag} alt="Flag" /> : <img src={empty} alt="Flag" />}
             </div>
 
             <form className="mid-form">

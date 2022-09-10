@@ -174,7 +174,7 @@ class PlayerForm extends Component{
                             <input type="text" 
                                     name="firstname" 
                                     ref={this.firstRef}
-                                    onChange={this.changeState}
+                                   
     
                             />
                         </div>

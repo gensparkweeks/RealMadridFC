@@ -7,6 +7,7 @@ import {Link} from 'react-router-dom';
 class CountryShow extends Component{
 
     url = Global.url;
+    imgPath = Global.imgPath;
 
     state = {
         countries: [],
@@ -36,7 +37,8 @@ class CountryShow extends Component{
                 return(
                     <>
                         <div key={country.countryId} className="image-wrap">
-                            <img src={empty} alt="Flag" />
+                            {country.flag !== null? <img src={this.imgPath + country.flag} alt="Flag" /> : <img src={empty} alt="Flag" />}
+                            
                         </div>
 
                         <h2>{country.countryName} </h2>

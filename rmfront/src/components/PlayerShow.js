@@ -8,8 +8,9 @@ import Moment from 'react-moment';
 class PlayerShow extends Component{
 
     url = Global.url;
+    imgPath = Global.imgPath;
 
-    componentWillMount(){
+    componentDidMount(){
         this.getPlayers()
     }
 
@@ -35,10 +36,11 @@ class PlayerShow extends Component{
 
             var listPlayers = this.state.players.map((player) => {
                 return(
-                    <div id="articles">
+                    <div id="articles" key={player.playerId}>
                         <article className="article-item" id="article-template">
                             <div className="image-wrap">
-                                <img src={empty} alt="Player" />
+                                {player.picture !== 'null' ? <img src={this.imgPath + player.picture} alt="Player" /> : <img src={empty} alt="Player" />}
+                                
                             </div>
         
                             <h2>{player.firstName + " "+ player.lastName}</h2>
@@ -50,7 +52,7 @@ class PlayerShow extends Component{
                     
                             </span>
                             <span className="date">
-                                    {player.position.positionName}
+                                    {player.position.positionName !== null && player.position.positionName }
                             </span>
         
                             <Link to={"/playersupdate/"+player.playerId}>Update</Link>

@@ -1,6 +1,6 @@
 
 var Global = {
     url:"http://localhost:8080/api/",
-    imagePath:"../assets/images/"
+    imgPath:"http://localhost:8080/resources/images/"
 }
 export default Global;

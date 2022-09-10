@@ -6,29 +6,35 @@ import Swal from 'sweetalert2';
 
 class PlayerUpdate extends Component{
 
-  url = Global.url;
 
-  firstRef = React.createRef();
-  lastRef  = React.createRef();
-  dobRef  = React.createRef();
-  bioRef  = React.createRef();
-  couRef  = React.createRef();
-  posRef = React.createRef();
+    url = Global.url;
+    playerId = 7;
 
-  state = {
-      first: "",
-      last: "",
-      dob: "",
-      bio: "",
-      cou: 0,
-      pos: 0,
-      players:{},
-      countries:[],
-      positions:[],
-      status: false
-  }
+    firstRef = React.createRef();
+    lastRef  = React.createRef();
+    dobRef  = React.createRef();
+    bioRef  = React.createRef();
+    couRef  = React.createRef();
+    posRef = React.createRef();
+  
 
-  changeState = ()=>{
+    state = {
+        first: "",
+        last: "",
+        dob: new Date("2016-01-04"),
+        bio: "",
+        picture:"",
+        cou: 0,
+        pos: 0,
+        players:{},
+        countries:[],
+        positions:[],
+        statusup: false,
+        statusdel: false,
+        seletedFile:null
+    }
+
+    changeState = ()=>{
 
       if (this.firstRef.current.value !== null){
           this.setState({
@@ -38,79 +44,65 @@ class PlayerUpdate extends Component{
 
       if (this.lastRef.current.value !== null){
           this.setState({
-              first: this.lastRef.current.value
+              last: this.lastRef.current.value
           })
       }
       if (this.dobRef.current.value !== null){
           this.setState({
-              first: this.dobRef.current.value
+              dob: this.dobRef.current.value
           })
       }
       if (this.bioRef.current.value !== null){
           this.setState({
-              first: this.bioRef.current.value
+              bio: this.bioRef.current.value
           })
       }
       if (this.couRef.current.value !== null){
           this.setState({
-              first: this.couRef.current.value
+              cou: this.couRef.current.value
           })
       }
       if (this.posRef.current.value !== null){
           this.setState({
-              first: this.posRef.current.value
+              pos: this.posRef.current.value
           })
       }
 
-  }
-  
-  submitForm  = (e)=>{
-      e.preventDefault();
+    }
 
-      //Set State
-      this.setState({
-          players: {
-              firstName: this.state.first,
-              lastName: this.state.last,
-              dob: this.state.dob,
-              picture: "empty.png",
-              bio: this.state.bio,
-              country: {
-                  countryId: this.state.cou,
-                  countryName: "",
-                  flag: "empty.png"
-              },
-              position: {
-                  positionId: this.state.pos,
-                  positionName: ""
-              }
-          }
-      })
+    fileSelectedHandler = (event)=>{
+    this.setState({
+        seletedFile: event.target.files[0]
+    })
+    }
 
-      console.log(this.state.players);
+    componentDidMount(){
+        this.getCountries();
+        this.getPositions();
+        this.getPlayer();
+    }
 
-      // //Post
-      // axios.put(this.url + "countries", this.state.countries)
-      //     .then(res => {
-      //         if (res.data){
-      //             this.setState({
-      //                 status: true
-      //             })
-      //         }
+    getPlayer(){
+    //Get
+    axios.get(this.url + "players/"+this.playerId)
+    .then(res => {
+        this.setState({
+            players: res.data 
+        }) 
+        console.log(res.data)
+        this.setState({
+            first: res.data.firstName,
+            last: res.data.lastName,
+            dob: res.data.dob,
+            picture:res.data.picture,
+            bio: res.data.bio,
+            cou: res.data.country.countryId,
+            pos: res.data.position.positionId
+            })
+        });  
+    }
 
-      //     });
-      
-  };
-
-  playerId = null;
-
-  componentWillMount(){
-    // this.playerId = this.props.match.params.id;
-    this.getCountries();
-    this.getPositions();
-  }
-
-  getCountries(){
+    getCountries(){
       //Get
       axios.get(this.url + "countries")
       .then(res => {
@@ -118,181 +110,239 @@ class PlayerUpdate extends Component{
               countries: res.data
           }) 
 
-      });  
-  }
+        });  
+    }
 
-  getPositions(){
+    getPositions(){
       //Get
       axios.get(this.url + "positions")
       .then(res => {
           this.setState({
               positions: res.data
           })
-      });  
+        });  
 
-  }
+    }
 
-  handleUpdate = () => {
-    // Put
-    axios.put(this.url + "countries", {})
+    handleUpdate = (e) => {
+
+        var pictureUpdate = this.state.players.picture !== null ? this.state.players.picture : null ;
+
+        console.log("Picture: ", pictureUpdate);
+
+        if (this.state.seletedFile !== null){
+
+            pictureUpdate = this.state.seletedFile.name;
+            console.log("After Picture: ", pictureUpdate);
+
+            const fd = new FormData();
+            fd.append('file0', this.state.seletedFile);
+
+            //Put
+            axios.put("http://localhost:8080/api/upload", fd)
+            .then(res =>{
+                if(res.ok) {
+                    console.log(res.data)
+                }
+            })
+        
+        }
+
+        const playerargs = {
+            playerId: this.state.players.playerId,
+            firstName: this.state.first,
+            lastName: this.state.last,
+            dob: this.state.dob,
+            picture: pictureUpdate,
+            bio: this.state.bio,
+            country: {
+                countryId: this.state.cou,
+                countryName: "",
+                flag: ""
+            },
+            position: {
+                positionId: this.state.pos,
+                positionName: ""
+            }
+ 
+        }
+
+        // Put
+        axios.put(this.url + "players", playerargs)
         .then(res => {
             if (res.data){ 
+                this.setState({
+                    statusup: "success"
+                })
             }
         });
+        Swal.fire({
+            icon: 'success',
+            title: 'The player '+ this.state.players.playerName+ '  was updated!'
+        })
+    };
 
-    Swal.fire({
-        icon: 'success',
-        title: 'The country ---  was updated!'
-    })
+        handleDelete = (e) => {
 
-};
+        e.preventDefault();
 
-handleDelete = () => {
-    //Delete
-    axios.delete(this.url + "countries/" )
-        .then(res => {
-            if (res.data){  
-            }
-        });
+        //Delete
+        axios.delete(this.url + "countries/" )
+            .then(res => {
+                if (res.data){  
+                    this.setState({
+                        statusdel: "success"
+                    })
+                }
+            }); 
 
-    Swal.fire({
-        icon: 'success',
-        title: 'The country ----- was deleted!'
-    })  
-}
+        Swal.fire({
+            icon: 'success',
+            title: 'The player '+ this.state.players.playerName+ '  was deleted!'
+        })    
 
-  render(){
+    }
 
-      if (this.state.status){
-          Swal.fire({
-              icon: 'success',
-              title: 'The position '+this.state.countries.firstName + " " + this.state.countries.lastName+ ' was created!'
-          }) 
-          return <Navigate to="/players"></Navigate>
-      }
+    render(){
+        if (this.state.statusdel === "success" || this.state.statusup === "success"){
+            console.log("statusUp:", this.state.statusup, "statusDel:", this.state.statusdel,);
+            return(
+                <Navigate to="/players" />
+            )
+        }
 
-      if (this.state.countries.length >= 1){
-          var listCountries = this.state.countries.map(country => {
-              return(
-                  <>
-                      <option key={country.countryId} value={country.countryId}>{country.countryName}</option>
-                  </>
-              )
-          })
-      }
+        if (this.state.countries.length >= 1){
+            var listCountries = this.state.countries.map(country => {
+                return(
+                    <>
+                        <option key={country.countryId} value={country.countryId}>{country.countryName}</option>
+                    </>
+                )
+            })
+        }
 
-      if (this.state.positions.length >= 1){
+        if (this.state.positions.length >= 1){
 
-          var listPositions = this.state.positions.map((pos) => {
-              return(
-                  <>
-                      <option key={pos.positionId} value={pos.positionId}>{pos.positionName}</option>
-                  </>
-              )
-          })
-      }
+            var listPositions = this.state.positions.map((pos) => {
+                return(
+                    <>
+                        <option key={pos.positionId} value={pos.positionId}>{pos.positionName}</option>
+                    </>
+                )
+            })
+        }
 
+        return (
 
-      return (
-          <div className="center">
-              <section id="content">
-                  <h1 className="subheader">Adding a new player</h1>
+            <div className="center">
+                <section id="content">
+                    <h1 className="subheader">Updating a player</h1>
 
-                  <form onSubmit={this.submitForm} className="mid-form">
-                      <div className="form-group">
-                          <label htmlFor="firstname">Name</label>
-                          <input type="text" 
-                                  name="firstname" 
-                                  ref={this.firstRef}
-                                  onChange={this.changeState}
-  
-                          />
-                      </div>
+                    <form className="mid-form">
+                        <div className="form-group">
+                            <label htmlFor="firstname">FirstName</label>
+                            <input type="text" 
+                                    name="firstname" 
+                                    ref={this.firstRef}
+                                    onChange={this.changeState}
+                                    value={this.state.first}
 
-                      <div className="form-group">
-                          <label htmlFor="lastname">First Name</label>
-                          <input type="text" 
-                                  name="lastname" 
-                                  ref={this.lastRef}
-                                  onChange={this.changeState}
-                          />
-                      </div>
+                            />
+                        </div>
 
-                      <div className="form-group">
-                          <label htmlFor="dob">Date Of Birth</label>
-                          <input type="date" 
-                                  name="dob" 
-                                  ref={this.dobRef}
-                                  onChange={this.changeState}
-                          />
-                      </div>
+                        <div className="form-group">
+                            <label htmlFor="lastname">Last Name</label>
+                            <input type="text" 
+                                    name="lastname" 
+                                    ref={this.lastRef}
+                                    onChange={this.changeState}
+                                    value={this.state.last}
+                            />
+                        </div>
 
-                      <div className="form-group">
-                          <label htmlFor="position">Position</label>
-                          <select name="position" 
-                                  id="cars"
-                                  ref={this.posRef}
-                                  onChange={this.changeState}
-                          >
-                              {listPositions}
-                          </select>
-                      </div>
+                        <div className="form-group">
+                            <label htmlFor="dob">Date Of Birth</label>
+                            <input type="text" 
+                                    name="dob" 
+                                    ref={this.dobRef}
+                                    onChange={this.changeState}
+                                    value={this.state.dob}
+                            />
+                        </div>
 
-                      <div className="form-group">
-                          <label htmlFor="country">Country</label>
-                          <select name="country" 
-                                  id="cars"
-                                  ref={this.couRef}
-                                  onChange={this.changeState}
-                          >
-                              {listCountries}
-                          </select>
-                      </div>
+                        <div className="form-group">
+                            <label htmlFor="position">Position</label>
+                            <select name="position" 
+                                    id="cars"
+                                    ref={this.posRef}
+                                    onChange={this.changeState}
+                                    value={this.state.pos}
+                            >
+                                {listPositions}
+                            </select>
+                        </div>
 
-                      <div className="form-group">
-                          <label htmlFor="bio">Biography</label>
-                          <textarea name="bio"
-                                      href={this.bioRef}
-                                      onChange={this.changeState}
-                          ></textarea>
-                      </div>
+                        <div className="form-group">
+                            <label htmlFor="country">Country</label>
+                            <select name="country" 
+                                    id="cars"
+                                    ref={this.couRef}
+                                    onChange={this.changeState}
+                                    value={this.state.cou}
+                            >
+                                {listCountries}
+                            </select>
+                        </div>
 
-                      <div className="form-group">
-                          <label htmlFor="file">Picture</label>
-                          <input type="file" name="file" />
-                      </div>
+                        <div className="form-group">
+                            <label htmlFor="bio">Biography</label>
+                            <textarea name="bio"
+                                        href={this.bioRef}
+                                        onChange={this.changeState}
+                                        value={this.state.bio}
+                            ></textarea>
+                        </div>
 
-                      <div className="clearfix"></div>
+                        <div className="form-group">
+                            <label htmlFor="file">Picture</label>
+                            <input type="file" 
+                                name="file" 
+                                onChange={this.fileSelectedHandler} 
+                            
+                            />
+                        </div>
 
-                       <div className='btns'>
-                          <input onClick={this.handleUpdate} type="submit" value="Update" className="btn btn-update" />
-                          <input onClick={this.handleDelete} type="submit" value="Delete" className="btn btn-delete" />
-                      </div>
+                        <div className="clearfix"></div>
 
-                  </form>
+                        <div className='btns'>
+                            <input onClick={this.handleUpdate} type="submit" value="Update" className="btn btn-update" />
+                            <input onClick={this.handleDelete} type="submit" value="Delete" className="btn btn-delete" />
+                        </div>
 
-              </section>
+                    </form>
 
-              <aside id="sidebar">
-                  <div id="nav-blog" className="sidebar-item">
-                      <h3>You can</h3>
-                      <Link to="/players" className="btn btn-success">Go Back</Link>
-                  </div>
+                </section>
 
-                  <div id="search" className="sidebar-item">
-                      <h3>Finder</h3>
-                      <p>Find a player</p>
-                      <form>
-                          <input type="text" name="search" />
-                          <input type="submit" name="submit" value="Find" className="btn" />
-                      </form>
-                  </div>
-              </aside>
+                <aside id="sidebar">
+                    <div id="nav-blog" className="sidebar-item">
+                        <h3>You can</h3>
+                        <Link to="/players" className="btn btn-success">Go Back</Link>
+                    </div>
 
-              <div className="clearfix"></div>
-          </div>
-      );
-  } 
+                    <div id="search" className="sidebar-item">
+                        <h3>Finder</h3>
+                        <p>Find a player</p>
+                        <form>
+                            <input type="text" name="search" />
+                            <input type="submit" name="submit" value="Find" className="btn" />
+                        </form>
+                    </div>
+                </aside>
+
+                <div className="clearfix"></div>
+            </div>
+        );
+    } 
 }
 
 export default PlayerUpdate;

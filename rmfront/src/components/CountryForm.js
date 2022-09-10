@@ -11,13 +11,34 @@ export default function ContryForm() {
 
     const nameRef = useRef();
     const [couName, setCouName] = useState();
+    const [seletedFile, setSelectedFile] = useState(null);
+
     
-    const submitForm = () => {
+    const submitForm = (e) => {
+        e.preventDefault();
+
+        var flagUpdated = null;
+
+        if (seletedFile !== null){
+            flagUpdated = seletedFile.name;
+
+            const fd = new FormData();
+            fd.append('file0', seletedFile);
+
+            //Put
+            axios.post("http://localhost:8080/api/upload", fd)
+            .then(res =>{
+                if(res.ok) {
+                    console.log(res.data);
+                }
+            })
+            
+        }
         //Post
-        axios.put(url + "countries", {countryName: couName, countryFlag:'default.png'})
+        axios.post(url + "countries", {countryName: couName, countryFlag: flagUpdated})
             .then(res => {
-                if (res.data){
-                    
+                if(res.ok) {
+                    console.log(res.data);
                 }
             });
 
@@ -48,7 +69,7 @@ export default function ContryForm() {
                         <div className="form-group">
                             <label htmlFor="flag">Upload flag</label>
                             <input type="file" 
-                                    name="flag" 
+                                    onChange={(e)=> setSelectedFile(e.target.files[0])} 
                                     
                             />
                         </div>
