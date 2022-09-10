@@ -22,7 +22,7 @@ We use Spring Boot to build our API backend.
 * This Backend also contains a ***unit test*** nodule.
 
 #### MySQL
-We use MySQL as a `database relational model` to store data
+We use MySQL as a `relational database model` to store data
 * This is the ***diagram*** of our realmadrid MySQL database:
 ![RM-Banner](/assets/mysql.png "realmadrid MySQL diagram")
 
@@ -49,4 +49,18 @@ And `Moment` for formatting dates:
 ```sh
 npm install --save moment react-moment
 ```
+### What we learned?
+> Related with the back-end:
+>> Go deeper with Spring Boot framework.
+>> Better experience working with relationship between entities. 
+>> How to configurate and work with uploading images.
+>> Allow connection to the front-end.
+
+> Related with the front-end:
+>> First and great experience using React.
+>> Using other libraries like: SweetAlert2, Moment, Axios, and react-router-dom.
+>> Implementing process to interact with the backend.
+
+> Good introduce to [Kanban Board](https://draft.io/jfpa4ryqxn63gg25dh9wds6gvdq6erg4jjr4rbpvyry6 "Kanban")
+
 ![RM-Banner](/assets/rm-banner.jpg "Real MAdrid")
