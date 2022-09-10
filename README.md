@@ -2,24 +2,32 @@
 ## Welcome to the Real Madrid FC soccer team squad manage. 
 ###### Version 1.0
 
-This is a Spring-Boot MySql React project. With this application we try to manage the squad of a soccer team in order to maintain it updated. Players, countries and posititions within a soccer game are managed for this application.
+This is a ***Spring-Boot MySql React*** project. With this application we try to manage the squad of a soccer team in order to maintain it updated. Players, countries and positions within a soccer game are managed for this application.
+
+### Technologies used
+| Tecnology | Description |
+| --------- | ----------- |
+| Spring Boot | for building our backend |
+| MySQL | to store our entities in a database |
+| React | to build our frontend |
+
 
 #### Spring Boot
 We use Spring Boot to build our API backend.
 * The project structure was made using [Spring Initializer](https://spring.io/).
-* It contains three entities:
-. Players
-. Countries
-. Positions
-* This Backend also contains a unit test nodule.
+* It contains three **entities**:
+    - Player
+    - Country
+    - Position
+* This Backend also contains a ***unit test*** nodule.
 
 #### MySQL
 We use MySQL as a `database relational model` to store data
-* This is the diagram of our realmadrd MySQL database:
+* This is the ***diagram*** of our realmadrid MySQL database:
 ![RM-Banner](/assets/mysql.png "realmadrid MySQL diagram")
 
 #### React
-We installed or update node to create our React module for our Front:
+We installed or updated *nodejs* to create our React module for our Front:
 ```sh
 npm install npm -g 
 cd main directory
