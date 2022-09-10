@@ -14,7 +14,7 @@ This is a ***Spring-Boot MySql React*** project. With this application we try to
 
 #### Spring Boot
 We use Spring Boot to build our API backend.
-* The project structure was made using [Spring Initializer](https://spring.io/).
+* The project structure was made using [Spring Initializer](https://start.spring.io/).
 * It contains three **entities**:
     - Player
     - Country
