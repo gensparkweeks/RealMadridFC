@@ -6,5 +6,4 @@ public interface UploadService {
 
     public void uploadFile(MultipartFile file);
 
-    public void findById(int id);
 }

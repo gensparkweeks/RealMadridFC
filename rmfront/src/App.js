@@ -39,6 +39,7 @@ function App() {
             <Route exact path="/playersform" element={<PlayerForm />} />
             <Route exact path="/playersupdate/:id" element={<PlayerUpdate />} />
 
+
             <Route exact path="*" element={<Error />} />
 
         </Routes>

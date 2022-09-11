@@ -1,75 +1,118 @@
-import React, {Component} from 'react';
-import empty from '../assets/images/empty.png';
-import Global from './Global';
-import axios from 'axios';
-import {Link} from 'react-router-dom';
+import {useState, useEffect} from 'react'
+import empty from '../assets/images/empty.png'
+import Global from './Global'
+import axios from 'axios'
+import {Link, useSearchParams} from 'react-router-dom'
 
-class CountryShow extends Component{
+function CountryShow(){
 
-    url = Global.url;
-    imgPath = Global.imgPath;
+    const url = Global.url;
+    const imgPath = Global.imgPath;
 
-    state = {
-        countries: [],
-        status: false
+    const [searchParams, setSerachParams] = useSearchParams();
+    const filter = searchParams.get("filter") ?? "";
+
+    var [status, setStatus] = useState(false);
+    var [countries, SetCountries] = useState([]);
+
+    const handleFilter = (e)=>{
+        setSerachParams({
+            filter: e.target.value
+        })
     }
 
-    componentWillMount(){
-        this.getCountries();
-    }
+    useEffect(() => {
+        getCountries();
+    }, []);
 
-    getCountries = ()=>{
+    const getCountries = ()=>{
         //Get
-        axios.get(this.url + "countries")
+        axios.get(url + "countries")
         .then(res => {
-            this.setState({
-                countries: res.data,
-                status: true
-            }) 
-
-        });   
+            SetCountries(res.data);
+            setStatus(true) 
+        });  
     }
 
-    render(){
 
-        if (this.state.countries.length >= 1){
-            var listCountries = this.state.countries.map(country => {
-                return(
-                    <>
-                        <div key={country.countryId} className="image-wrap">
-                            {country.flag !== null? <img src={this.imgPath + country.flag} alt="Flag" /> : <img src={empty} alt="Flag" />}
-                            
-                        </div>
+    if (countries.length >= 1){
+        var listCountries = 
+            countries.filter(country =>{
+                if (!filter) {
+                    return true;
+                }else{
+                    return country.countryName.toLowerCase().includes(filter.toLowerCase());
+                }
+               }).map(country => {
+                    if (countries.length >= 1){
+                        return(
+                            <div id="articles">
+                                <article className="article-item" id="article-template">
+    
+                                    <div key={country.countryId} className="image-wrap">
+                                        {country.flag !== null? <img src={imgPath + country.flag} alt="Flag" /> : <img src={empty} alt="Flag" />}
+                                    
+                                    </div>
+    
+                                    <h2>{country.countryName} </h2>
+                                    
+                                    <Link to={"/contriesupdate/"+country.countryId+"/"+country.countryName+"/"+country.flag}>Update</Link>
+                                    
+                                    <div className="clearfix"></div>                  
+                                </article>
+    
+                            </div>
+                        )
+                    }else{
+                        return(
+                            <>
+                                <h2>There is no country in this search, please try again...</h2>
+                            </>
+                        )
+                    }
+                    
+                })
 
-                        <h2>{country.countryName} </h2>
-                       
-                        <Link to={"/contriesupdate/"+country.countryId+"/"+country.countryName+"/"+country.flag}>Update</Link>
-                        <div className="clearfix"></div>
+        return(
+            <div className="center">
+                <section id="content">
+                    <h2 className="subheader">Countries in the Real Madrid squad</h2>
+                        {listCountries}
+                </section>
 
-                        <br />
-                    </>
-                )
-            })
+                <aside id="sidebar">
+                    <div id="nav-blog" className="sidebar-item">
+                        <h3>You can</h3>
+                        <Link to="/contriesform" className="btn btn-success">Add a country</Link>
+                    </div>
 
-            return(
-                <>
-                    {listCountries}
-                </>
-                
-            )
-
-        }else if (this.state.countries.length === 0 && this.state.status){
-            return(
-                <h1 className="subheader">Nothing to show...</h1>
-            )
+                    <div id="search" className="sidebar-item">
+                        <h3>Finder</h3>
+                        <p>Find a country</p>
+                        <form>
+                            <input type="text"  className='filter'
+                                    placeholder='filter'
+                                    onChange={handleFilter}  
+                                    value={filter}    
+                            />
+                        </form>
+                    </div>
+                </aside>
+                <div className="clearfix"></div>
+            </div>
             
-        }else{
-            return(
-                <h1 className="subheader">Loading countries...</h1>
-            )
-            
-        }
+        )
 
+    }else if (countries.length === 0 && status){
+        return(
+            <h1 className="subheader">Nothing to show...</h1>
+        )
+        
+    }else{
+        return(
+            <h1 className="subheader">Loading countries...</h1>
+        )
+        
     }
 }
 export default CountryShow;

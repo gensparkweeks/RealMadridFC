@@ -13,6 +13,7 @@ public class UploadServiceImpl implements UploadService{
     public void uploadFile(MultipartFile file) {
 
         String upLoadFolderPath = "/fotos/";
+
         try {
             byte[] data = file.getBytes();
             Path path = Paths.get(upLoadFolderPath + file.getOriginalFilename());
@@ -21,11 +22,6 @@ public class UploadServiceImpl implements UploadService{
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
-    }
-
-    @Override
-    public void findById(int id) {
 
     }
 

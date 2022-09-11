@@ -19,7 +19,7 @@ We use Spring Boot to build our API backend.
     - Player
     - Country
     - Position
-* This Backend also contains a ***unit test*** nodule.
+* This Backend also contains a ***unit test*** module.
 
 #### MySQL
 We use MySQL as a `relational database model` to store data
@@ -57,9 +57,11 @@ npm install --save moment react-moment
 >> Allow connection to the front-end.
 
 > Related with the front-end:
->> First and great experience using React.
->> Using other libraries like: SweetAlert2, Moment, Axios, and react-router-dom.
+>> First and a great experience using React.
+>> Using libraries like: SweetAlert2, Moment, Axios, and react-router-dom.
 >> Implementing process to interact with the backend.
+
+> Complete a full stack Java application.
 
 > Good introduce to [Kanban Board](https://draft.io/jfpa4ryqxn63gg25dh9wds6gvdq6erg4jjr4rbpvyry6 "Kanban")
 

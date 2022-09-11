@@ -20,6 +20,7 @@ export default function ContryForm() {
         var flagUpdated = null;
 
         if (seletedFile !== null){
+
             flagUpdated = seletedFile.name;
 
             const fd = new FormData();
@@ -34,8 +35,9 @@ export default function ContryForm() {
             })
             
         }
+
         //Post
-        axios.post(url + "countries", {countryName: couName, countryFlag: flagUpdated})
+        axios.post(url + "countries", {countryName: couName, flag: flagUpdated})
             .then(res => {
                 if(res.ok) {
                     console.log(res.data);
@@ -51,45 +53,45 @@ export default function ContryForm() {
 
   return (
     <div className="center">
-                <section id="content">
+        <section id="content">
 
-                    <h1 className="subheader">Adding a country</h1>
+            <h1 className="subheader">Adding a country</h1>
 
-                    <form onSubmit={submitForm} className="mid-form" enctype='multipart/form-data'>
-                        <div className="form-group">
-                            <label htmlFor="contryname">Name</label>
-                            <input type="text" 
-                                    name="contryname" 
-                                    ref={nameRef}
-                                    onChange={(e) => setCouName(e.target.value)}
-                                    value={couName}
-                            />
-                        </div>
+            <form onSubmit={submitForm} className="mid-form" enctype='multipart/form-data'>
+                <div className="form-group">
+                    <label htmlFor="contryname">Name</label>
+                    <input type="text" 
+                            name="contryname" 
+                            ref={nameRef}
+                            onChange={(e) => setCouName(e.target.value)}
+                            value={couName}
+                    />
+                </div>
 
-                        <div className="form-group">
-                            <label htmlFor="flag">Upload flag</label>
-                            <input type="file" 
-                                    onChange={(e)=> setSelectedFile(e.target.files[0])} 
-                                    
-                            />
-                        </div>
-
-                        <div className="clearfix"></div>
-
-                        <input type="submit" value="Create" className="btn btn-success" />
-
-                    </form>
-
-                </section>
-
-                <aside id="sidebar">
-                    <div id="nav-blog" className="sidebar-item">
-                        <h3>You can</h3>
-                        <Link to="/countries" className="btn btn-success">Go Back</Link>
-                    </div>
-                </aside>
+                <div className="form-group">
+                    <label htmlFor="flag">Upload flag</label>
+                    <input type="file" 
+                            onChange={(e)=> setSelectedFile(e.target.files[0])} 
+                            
+                    />
+                </div>
 
                 <div className="clearfix"></div>
+
+                <input type="submit" value="Create" className="btn btn-success" />
+
+            </form>
+
+        </section>
+
+        <aside id="sidebar">
+            <div id="nav-blog" className="sidebar-item">
+                <h3>You can</h3>
+                <Link to="/countries" className="btn btn-success">Go Back</Link>
             </div>
+        </aside>
+
+        <div className="clearfix"></div>
+    </div>
   )
 }
