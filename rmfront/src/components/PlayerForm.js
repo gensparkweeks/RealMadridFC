@@ -8,99 +8,77 @@ class PlayerForm extends Component{
 
     url = Global.url;
 
-    firstRef = React.createRef();
-    lastRef  = React.createRef();
-    dobRef  = React.createRef();
-    bioRef  = React.createRef();
-    couRef  = React.createRef();
-    posRef = React.createRef();
+    firstRef = React.createRef("");
+    lastRef  = React.createRef("");
+    dobRef  = React.createRef("");
+    bioRef  = React.createRef(" ");
+    couRef  = React.createRef("");
+    posRef = React.createRef("");
+    fileRef = React.createRef("");
 
     state = {
-        first: "",
-        last: "",
-        dob: "",
-        bio: "",
-        cou: 0,
-        pos: 0,
-        players:{},
-        countries:[],
-        positions:[],
+        countries:{},
+        positions:{},
         status: false
     }
-
-    
-
-    changeState = ()=>{
-
-        if (this.firstRef.current.value !== null){
+        
+    onFileChange = (e) =>{
+        if (e.target.files[0] !== null){
             this.setState({
-                first: this.firstRef.current.value
+                selectedFile: e.target.files[0]
             })
         }
-
-        if (this.lastRef.current.value !== null){
-            this.setState({
-                first: this.lastRef.current.value
-            })
-        }
-        if (this.dobRef.current.value !== null){
-            this.setState({
-                first: this.dobRef.current.value
-            })
-        }
-        if (this.bioRef.current.value !== null){
-            this.setState({
-                first: this.bioRef.current.value
-            })
-        }
-        if (this.couRef.current.value !== null){
-            this.setState({
-                first: this.couRef.current.value
-            })
-        }
-        if (this.posRef.current.value !== null){
-            this.setState({
-                first: this.posRef.current.value
-            })
-        }
-
     }
     
     submitForm  = (e)=>{
         e.preventDefault();
 
-        //Set State
-        this.setState({
-            players: {
-                firstName: this.state.first,
-                lastName: this.state.last,
-                dob: this.state.dob,
-                picture: "empty.png",
-                bio: this.state.bio,
-                country: {
-                    countryId: this.state.cou,
-                    countryName: "",
-                    flag: "empty.png"
-                },
-                position: {
-                    positionId: this.state.pos,
-                    positionName: ""
+        //Upload Picture
+        var pictureUpdate = null;
+
+        if (this.state.selectedFile !== null){
+            pictureUpdate = this.state.selectedFile
+
+            const fd = new FormData();
+            fd.append('file0', this.state.selectedFile);
+
+            //Post
+            axios.post("http://localhost:8080/api/upload", fd)
+            .then(res =>{
+                if(res.ok) {
+                    console.log(res.data);
                 }
+            }) 
+        }
+
+        const playerargs = {
+            firstName: this.firstRef.current.value,
+            lastName: this.lastRef.current.value,
+            dob: this.dobRef.current.value,
+            picture: pictureUpdate.name,
+            bio: this.bioRef.current.value,
+            country: {
+                countryId: this.couRef.current.value,
+                countryName: "",
+                flag: ""
+            },
+            position: {
+                positionId:  this.posRef.current.value,
+                positionName: ""
             }
-        })
+ 
+        }
 
-        console.log(this.state.players);
+        //Post
+        axios.post(this.url + "players", playerargs)
+            .then(res => {
+                if (res.data){
+                    this.setState({
+                        status: true
+                    })
+                }
 
-        // //Post
-        // axios.put(this.url + "countries", this.state.countries)
-        //     .then(res => {
-        //         if (res.data){
-        //             this.setState({
-        //                 status: true
-        //             })
-        //         }
-
-        //     });
+            });
         
     };
 
@@ -136,7 +114,7 @@ class PlayerForm extends Component{
         if (this.state.status){
             Swal.fire({
                 icon: 'success',
-                title: 'The position '+this.state.countries.firstName + " " + this.state.countries.lastName+ ' was created!'
+                title: 'The player '+this.firstRef.current.value + " " + this.lastRef.current.value+ ' was added!'
             }) 
             return <Navigate to="/players"></Navigate>
         }
@@ -184,7 +162,6 @@ class PlayerForm extends Component{
                             <input type="text" 
                                     name="lastname" 
                                     ref={this.lastRef}
-                                    onChange={this.changeState}
                             />
                         </div>
 
@@ -193,7 +170,6 @@ class PlayerForm extends Component{
                             <input type="date" 
                                     name="dob" 
                                     ref={this.dobRef}
-                                    onChange={this.changeState}
                             />
                         </div>
 
@@ -202,7 +178,6 @@ class PlayerForm extends Component{
                             <select name="position" 
                                     id="cars"
                                     ref={this.posRef}
-                                    onChange={this.changeState}
                             >
                                 {listPositions}
                             </select>
@@ -213,7 +188,6 @@ class PlayerForm extends Component{
                             <select name="country" 
                                     id="cars"
                                     ref={this.couRef}
-                                    onChange={this.changeState}
                             >
                                 {listCountries}
                             </select>
@@ -222,14 +196,17 @@ class PlayerForm extends Component{
                         <div className="form-group">
                             <label htmlFor="bio">Biography</label>
                             <textarea name="bio"
-                                        href={this.bioRef}
-                                        onChange={this.changeState}
+                                        ref={this.bioRef}
+                                        
                             ></textarea>
                         </div>
 
                         <div className="form-group">
                             <label htmlFor="file">Picture</label>
-                            <input type="file" name="file" />
+                            <input type="file"  
+                                    ref={this.fileRef}
+                                    onChange={this.onFileChange}
+                            />
                         </div>
 
                         <div className="clearfix"></div>

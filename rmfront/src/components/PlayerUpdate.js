@@ -6,9 +6,8 @@ import Swal from 'sweetalert2';
 
 class PlayerUpdate extends Component{
 
-
     url = Global.url;
-    playerId = 7;
+    playerId = 5;
 
     firstRef = React.createRef();
     lastRef  = React.createRef();

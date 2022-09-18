@@ -45,10 +45,10 @@ class PlayerShow extends Component{
         
                             <h2>{player.firstName + " "+ player.lastName}</h2>
                             <span className="date"> 
-                                {/* <Moment to={player.dob} /> */}
-                                <Moment titleFormat="MM DD YYYY">
+                                Born: <Moment to={player.dob} />
+                                {/* <Moment titleFormat="MM DD YYYY">
                                     {player.dob}
-                                </Moment>
+                                </Moment> */}
                     
                             </span>
                             <span className="date">
